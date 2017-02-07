@@ -1,0 +1,20 @@
+{
+  "name": "BTbuild",
+  "version": "0.0.1",
+  "author": {
+    "name": "richliu1023",
+    "email": "richliu1023@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "2.14.1",
+    "gulp-uglify": "^2.0.0",
+    "typescript": "1.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richliu1023"
+  }
+}
