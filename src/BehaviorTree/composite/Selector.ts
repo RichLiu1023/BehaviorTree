@@ -17,45 +17,35 @@ module bt {
 			this.name = 'Selector';
 		}
 
-		public static create():bt.Selector {
+		public static create(): bt.Selector {
 			return new bt.Selector();
 		}
 
-		execute( input:bt.BlackBoard ):number {
-			let len:number = this.children.length;
-			if ( len == 0 )throw bt.ErrorCode.e1;
+		execute(input: bt.BlackBoard): number {
+			let len: number = this.children.length;
+			if (len == 0) throw bt.ErrorCode.e1;
 			let state = bt.State.failure;
-			let data = this.getAndCreateMethod( input );
-			for ( var idx = data.index; idx < len; idx++ ) {
-				let node = this.children[ idx ];
-				state = node.tick( input );
-				if ( state == bt.State.success ) {
+			let data = this.getAndCreateMethod(input);
+			for (var idx = data.index; idx < len; idx++) {
+				let node = this.children[idx];
+				state = node.tick(input);
+				if (state == bt.State.success) {
 					state = bt.State.success;
-					data.index = 0;
 					break;
 				}
-				else if ( state == bt.State.running ) {
+				else if (state == bt.State.running) {
 					data.index = idx;
 					state = bt.State.running;
 					break;
 				}
+				else {
+					node.clearMethod(input);
+				}
 			}
-			if ( state == bt.State.failure ) {
+			if (state != bt.State.running) {
 				data.index = 0;
 			}
 			return state;
-		}
-
-		private getAndCreateMethod( input:bt.BlackBoard ):{index:number} {
-			if ( input.btMethod[ this.hashid] ) {
-				return input.btMethod[ this.hashid];
-			}
-			else {
-				let data = { index: 0 };
-				if ( !input )return data;
-				input.btMethod[ this.hashid] = data;
-				return input.btMethod[ this.hashid];
-			}
 		}
 	}
 }

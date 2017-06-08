@@ -25,5 +25,14 @@ module bt {
 			this.children.push(node);
 			return this;
 		}
+
+		public clearMethod(input: bt.BlackBoard): void {
+			super.clearMethod(input);
+			let len: number = this.children.length;
+			for (var idx = 0; idx < len; idx++) {
+				let node = this.children[idx];
+				node.clearMethod(input);
+			}
+		}
 	}
 }

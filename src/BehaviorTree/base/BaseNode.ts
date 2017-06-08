@@ -38,5 +38,23 @@ module bt {
 		execute(input: bt.BlackBoard): number {
 			return bt.State.failure;
 		}
+
+		protected getAndCreateMethod(input: bt.BlackBoard): any {
+			if (input.btMethod[this.hashid]) {
+				return input.btMethod[this.hashid];
+			}
+			else {
+				let data = { index: 0 };
+				if (!input) return data;
+				input.btMethod[this.hashid] = data;
+				return input.btMethod[this.hashid];
+			}
+		}
+
+		clearMethod(input: bt.BlackBoard): void {
+			if (input.btMethod[this.hashid]) {
+				input.btMethod[this.hashid] = null;
+			}
+		}
 	}
 }

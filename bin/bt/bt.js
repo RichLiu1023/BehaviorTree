@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var bt;
 (function (bt) {
-    bt.version = '1.0.0';
+    bt.version = '1.1.0';
     var BehaviorTree = (function () {
         function BehaviorTree() {
         }
@@ -54,6 +54,23 @@ var bt;
         BaseNode.prototype.execute = function (input) {
             return 1;
         };
+        BaseNode.prototype.getAndCreateMethod = function (input) {
+            if (input.btMethod[this.hashid]) {
+                return input.btMethod[this.hashid];
+            }
+            else {
+                var data = { index: 0 };
+                if (!input)
+                    return data;
+                input.btMethod[this.hashid] = data;
+                return input.btMethod[this.hashid];
+            }
+        };
+        BaseNode.prototype.clearMethod = function (input) {
+            if (input.btMethod[this.hashid]) {
+                input.btMethod[this.hashid] = null;
+            }
+        };
         BaseNode.hashid = 1;
         return BaseNode;
     }());
@@ -101,6 +118,14 @@ var bt;
             this.children.push(node);
             return this;
         };
+        Composite.prototype.clearMethod = function (input) {
+            _super.prototype.clearMethod.call(this, input);
+            var len = this.children.length;
+            for (var idx = 0; idx < len; idx++) {
+                var node = this.children[idx];
+                node.clearMethod(input);
+            }
+        };
         return Composite;
     }(bt.BaseNode));
     bt.Composite = Composite;
@@ -130,23 +155,14 @@ var bt;
                     state = 2;
                     break;
                 }
+                else {
+                    node.clearMethod(input);
+                }
             }
             if (state != 2) {
                 data.index = 0;
             }
             return state;
-        };
-        Queue.prototype.getAndCreateMethod = function (input) {
-            if (input.btMethod[this.hashid]) {
-                return input.btMethod[this.hashid];
-            }
-            else {
-                var data = { index: 0 };
-                if (!input)
-                    return data;
-                input.btMethod[this.hashid] = data;
-                return input.btMethod[this.hashid];
-            }
         };
         return Queue;
     }(bt.Composite));
@@ -174,7 +190,6 @@ var bt;
                 state = node.tick(input);
                 if (state == 0) {
                     state = 0;
-                    data.index = 0;
                     break;
                 }
                 else if (state == 2) {
@@ -182,23 +197,14 @@ var bt;
                     state = 2;
                     break;
                 }
+                else {
+                    node.clearMethod(input);
+                }
             }
-            if (state == 1) {
+            if (state != 2) {
                 data.index = 0;
             }
             return state;
-        };
-        Selector.prototype.getAndCreateMethod = function (input) {
-            if (input.btMethod[this.hashid]) {
-                return input.btMethod[this.hashid];
-            }
-            else {
-                var data = { index: 0 };
-                if (!input)
-                    return data;
-                input.btMethod[this.hashid] = data;
-                return input.btMethod[this.hashid];
-            }
         };
         return Selector;
     }(bt.Composite));
@@ -230,26 +236,14 @@ var bt;
                     break;
                 }
                 if (state == 1) {
-                    data.index = 0;
+                    node.clearMethod(input);
                     break;
                 }
             }
-            if (state == 0) {
+            if (state != 2) {
                 data.index = 0;
             }
             return state;
-        };
-        Sequences.prototype.getAndCreateMethod = function (input) {
-            if (input.btMethod[this.hashid]) {
-                return input.btMethod[this.hashid];
-            }
-            else {
-                var data = { index: 0 };
-                if (!input)
-                    return data;
-                input.btMethod[this.hashid] = data;
-                return input.btMethod[this.hashid];
-            }
         };
         return Sequences;
     }(bt.Composite));

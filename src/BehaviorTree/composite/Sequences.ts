@@ -17,45 +17,32 @@ module bt {
 			this.name = 'Sequences';
 		}
 
-		public static create():bt.Sequences {
+		public static create(): bt.Sequences {
 			return new bt.Sequences();
 		}
 
-		execute( input:bt.BlackBoard ):number {
-			let len:number = this.children.length;
-			if ( len == 0 )throw bt.ErrorCode.e1;
+		execute(input: bt.BlackBoard): number {
+			let len: number = this.children.length;
+			if (len == 0) throw bt.ErrorCode.e1;
 			let state = bt.State.success;
-			let data = this.getAndCreateMethod( input );
-			for ( var idx = data.index; idx < len; idx++ ) {
-				let node = this.children[ idx ];
-				state = node.tick( input );
-				if ( state == bt.State.running ) {
+			let data = this.getAndCreateMethod(input);
+			for (var idx = data.index; idx < len; idx++) {
+				let node = this.children[idx];
+				state = node.tick(input);
+				if (state == bt.State.running) {
 					data.index = idx;
 					state = bt.State.running;
 					break;
 				}
-				if ( state == bt.State.failure ) {
-					data.index = 0;
+				if (state == bt.State.failure) {
+					node.clearMethod(input);
 					break;
 				}
 			}
-			if ( state == bt.State.success ) {
+			if (state != bt.State.running) {
 				data.index = 0;
 			}
 			return state;
 		}
-
-		private getAndCreateMethod( input:bt.BlackBoard ):{index:number} {
-			if ( input.btMethod[ this.hashid ] ) {
-				return input.btMethod[ this.hashid ];
-			}
-			else {
-				let data = { index: 0 };
-				if ( !input )return data;
-				input.btMethod[ this.hashid ] = data;
-				return input.btMethod[ this.hashid ];
-			}
-		}
-
 	}
 }

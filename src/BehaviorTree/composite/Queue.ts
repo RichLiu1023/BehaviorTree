@@ -34,24 +34,14 @@ module bt {
 					state = bt.State.running;
 					break;
 				}
+				else {
+					node.clearMethod(input);
+				}
 			}
-			if ( state != bt.State.running ) {
+			if (state != bt.State.running) {
 				data.index = 0;
 			}
 			return state;
 		}
-
-		private getAndCreateMethod(input: bt.BlackBoard): { index: number } {
-			if (input.btMethod[this.hashid]) {
-				return input.btMethod[this.hashid];
-			}
-			else {
-				let data = { index: 0 };
-				if (!input) return data;
-				input.btMethod[this.hashid] = data;
-				return input.btMethod[this.hashid];
-			}
-		}
-
 	}
 }

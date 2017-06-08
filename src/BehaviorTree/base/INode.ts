@@ -12,8 +12,9 @@ module bt {
 		/**
 		 * 前置条件，默认应该为 true ，行为树运行时会遍历整棵树的前置条件
 		 */
-		precondition( input:bt.BlackBoard ):boolean;
-		execute( input:bt.BlackBoard ):number;
-		tick(input:bt.BlackBoard):number;
+		precondition(input: bt.BlackBoard): boolean;
+		execute(input: bt.BlackBoard): number;
+		tick(input: bt.BlackBoard): number;
+		clearMethod(input: bt.BlackBoard): void;
 	}
 }

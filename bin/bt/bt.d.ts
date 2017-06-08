@@ -32,6 +32,8 @@ declare module bt {
         precondition(input: bt.BlackBoard): boolean;
         tick(input: bt.BlackBoard): number;
         execute(input: bt.BlackBoard): number;
+        protected getAndCreateMethod(input: bt.BlackBoard): any;
+        clearMethod(input: bt.BlackBoard): void;
     }
 }
 declare module bt {
@@ -44,6 +46,7 @@ declare module bt {
         precondition(input: bt.BlackBoard): boolean;
         execute(input: bt.BlackBoard): number;
         tick(input: bt.BlackBoard): number;
+        clearMethod(input: bt.BlackBoard): void;
     }
 }
 declare module bt {
@@ -59,6 +62,7 @@ declare module bt {
         constructor();
         setCondition(condition: bt.ICondition): bt.Composite;
         addNote(node: bt.INode): bt.Composite;
+        clearMethod(input: bt.BlackBoard): void;
     }
 }
 declare module bt {
@@ -66,7 +70,6 @@ declare module bt {
         constructor();
         static create(): bt.Queue;
         execute(input: bt.BlackBoard): number;
-        private getAndCreateMethod(input);
     }
 }
 declare module bt {
@@ -74,7 +77,6 @@ declare module bt {
         constructor();
         static create(): bt.Selector;
         execute(input: bt.BlackBoard): number;
-        private getAndCreateMethod(input);
     }
 }
 declare module bt {
@@ -82,7 +84,6 @@ declare module bt {
         constructor();
         static create(): bt.Sequences;
         execute(input: bt.BlackBoard): number;
-        private getAndCreateMethod(input);
     }
 }
 declare module bt {
@@ -143,7 +144,7 @@ declare module bt {
         constructor();
         static create(count?: number): bt.Repeater;
         execute(input: bt.BlackBoard): number;
-        private getAndCreateMethod(input);
+        protected getAndCreateMethod(input: bt.BlackBoard): any;
     }
 }
 declare module bt {
